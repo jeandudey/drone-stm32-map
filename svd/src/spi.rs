@@ -2,7 +2,7 @@
 
 use crate::copy_field;
 use anyhow::Result;
-use drone_svd::Device;
+use drone_svd::{Device, Access};
 
 pub fn fix_astren(dev: &mut Device, periph: &str) -> Result<()> {
     dev.periph(periph).reg("I2SCFGR").new_field(|field| {
@@ -11,6 +11,16 @@ pub fn fix_astren(dev: &mut Device, periph: &str) -> Result<()> {
         field.bit_offset = Some(12);
         field.bit_width = Some(1);
     });
+    Ok(())
+}
+
+pub fn fix_spi1_1(dev: &mut Device) -> Result<()> {
+    dev.periph("SPI1").reg("CR1").field("RCRCI").name = "RCRCINI".to_string();
+    dev.periph("SPI1").reg("CR1").field("TCRCI").name = "TCRCINI".to_string();
+    dev.periph("SPI1").reg("CFG1").field("FTHVL").name = "FTHLV".to_string();
+    dev.periph("SPI1").reg("IER").field("DPXPIE").name = "DXPIE".to_string();
+    dev.periph("SPI1").reg("TXCRC").access = Some(Access::ReadOnly);
+    dev.periph("SPI1").reg("RXCRC").access = Some(Access::ReadOnly);
     Ok(())
 }
 

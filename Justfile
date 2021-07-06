@@ -53,6 +53,8 @@ test-all:
 	RUSTFLAGS='--cfg cortexm_core="cortexm4f_r0p1" --cfg stm32_mcu="stm32f429"' cargo test --package drone-stm32-map --features "{{features}} std" --target=$(rustc --version --verbose | sed -n '/host/{s/.*: //;p}')
 	RUSTFLAGS='--cfg cortexm_core="cortexm4f_r0p1" --cfg stm32_mcu="stm32f446"' cargo test --package drone-stm32-map --features "{{features}} std" --target=$(rustc --version --verbose | sed -n '/host/{s/.*: //;p}')
 	RUSTFLAGS='--cfg cortexm_core="cortexm4f_r0p1" --cfg stm32_mcu="stm32f469"' cargo test --package drone-stm32-map --features "{{features}} std" --target=$(rustc --version --verbose | sed -n '/host/{s/.*: //;p}')
+	RUSTFLAGS='--cfg cortexm_core="cortexm7_r0p1" --cfg stm32_mcu="stm32h743"' cargo test --package drone-stm32-map --features "{{features}} std" --target=$(rustc --version --verbose | sed -n '/host/{s/.*: //;p}')
+	RUSTFLAGS='--cfg cortexm_core="cortexm7_r0p1" --cfg stm32_mcu="stm32h753"' cargo test --package drone-stm32-map --features "{{features}} std" --target=$(rustc --version --verbose | sed -n '/host/{s/.*: //;p}')
 	RUSTFLAGS='--cfg cortexm_core="cortexm4f_r0p1" --cfg stm32_mcu="stm32l4x1"' cargo test --package drone-stm32-map --features "{{features}} std" --target=$(rustc --version --verbose | sed -n '/host/{s/.*: //;p}')
 	RUSTFLAGS='--cfg cortexm_core="cortexm4f_r0p1" --cfg stm32_mcu="stm32l4x2"' cargo test --package drone-stm32-map --features "{{features}} std" --target=$(rustc --version --verbose | sed -n '/host/{s/.*: //;p}')
 	RUSTFLAGS='--cfg cortexm_core="cortexm4f_r0p1" --cfg stm32_mcu="stm32l4x3"' cargo test --package drone-stm32-map --features "{{features}} std" --target=$(rustc --version --verbose | sed -n '/host/{s/.*: //;p}')

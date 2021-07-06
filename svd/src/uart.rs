@@ -21,6 +21,41 @@ pub fn fix_usart1_2(dev: &mut Device) -> Result<()> {
     Ok(())
 }
 
+pub fn fix_usart1_3(dev: &mut Device) -> Result<()> {
+    for reg_name in &["USART1", "LPUART1"] {
+        dev.periph(reg_name).reg("CR1").field("TXEIE").name = "TXFNFIE".to_string();
+        dev.periph(reg_name).reg("CR1").field("RXNEIE").name = "RXFNEIE".to_string();
+        dev.periph(reg_name).reg("ICR").field("NCF").name = "NECF".to_string();
+    }
+    dev.periph("USART1").reg("ISR").field("NF").name = "NE".to_string();
+    dev.periph("USART1").reg("ICR").field("TCBGTC").name = "TCBGTCF".to_string();
+    dev.periph("USART1").reg("CR2").field("TAINV").name = "DATAINV".to_string();
+    dev.periph("USART1").reg("BRR").remove_field("BRR_4_15");
+    dev.periph("USART1").reg("BRR").remove_field("BRR_0_3");
+    dev.periph("USART1").reg("BRR").new_field(|field| {
+        field.name = "BRR".to_string();
+        field.description = "BRR".to_string();
+        field.bit_offset = Some(0);
+        field.bit_width = Some(16);
+    });
+    dev.periph("USART1").reg("CR1").remove_field("DEAT0");
+    dev.periph("USART1").reg("CR1").remove_field("DEAT1");
+    dev.periph("USART1").reg("CR1").remove_field("DEAT2");
+    dev.periph("USART1").reg("CR1").remove_field("DEAT3");
+    dev.periph("USART1").reg("CR1").remove_field("DEAT4");
+    dev.periph("USART1").reg("CR1").remove_field("DEDT0");
+    dev.periph("USART1").reg("CR1").remove_field("DEDT1");
+    dev.periph("USART1").reg("CR1").remove_field("DEDT2");
+    dev.periph("USART1").reg("CR1").remove_field("DEDT3");
+    dev.periph("USART1").reg("CR1").remove_field("DEDT4");
+    dev.periph("USART1").reg("CR2").remove_field("ADD4_7");
+    dev.periph("USART1").reg("CR2").remove_field("ADD0_3");
+    copy_field(dev, "LPUART1", "USART1", "CR1", "DEAT");
+    copy_field(dev, "LPUART1", "USART1", "CR1", "DEDT");
+    copy_field(dev, "LPUART1", "USART1", "CR2", "ADD");
+    Ok(())
+}
+
 pub fn fix_usart3_1(dev: &mut Device) -> Result<()> {
     dev.periph("RCC").reg("APB1ENR1").new_field(|field| {
         field.name = "USART3EN".to_string();
@@ -241,7 +276,12 @@ pub fn fix_uart10_2(dev: &mut Device) -> Result<()> {
     Ok(())
 }
 
-pub fn fix_lpuart1(dev: &mut Device) -> Result<()> {
+pub fn fix_lpuart1_1(dev: &mut Device) -> Result<()> {
     copy_field(dev, "USART3", "LPUART1", "CR3", "UCESM");
+    Ok(())
+}
+
+pub fn fix_lpuart1_2(dev: &mut Device) -> Result<()> {
+    dev.periph("LPUART1").reg("RQR").remove_field("ABRRQ");
     Ok(())
 }

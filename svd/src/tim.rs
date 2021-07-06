@@ -15,6 +15,16 @@ pub fn fix_tim1_2(dev: &mut Device) -> Result<()> {
     Ok(())
 }
 
+pub fn fix_tim1_3(dev: &mut Device) -> Result<()> {
+    dev.periph("TIM1").reg("CRR6").name = "CCR6".to_string();
+    dev.periph("TIM1").reg("CCMR1_Input").field("ICPCS").name = "IC1PSC".to_string();
+    dev.periph("TIM1").reg("CCMR1_Input").field("IC2PCS").name = "IC2PSC".to_string();
+    dev.periph("TIM1").reg("CCMR2_Output").field("OC4M_4").name = "OC4M_3".to_string();
+    dev.periph("TIM1").reg("CCMR3_Output").field("OC5M3").name = "OC5M_3".to_string();
+    dev.periph("TIM1").reg("CCMR3_Output").field("OC6M3").name = "OC6M_3".to_string();
+    Ok(())
+}
+
 pub fn fix_tim2_1(dev: &mut Device) -> Result<()> {
     add_third_bit(dev, "TIM2", "SMCR", "SMS", 16);
     add_third_bit(dev, "TIM2", "CCMR1_Output", "OC1M", 16);
@@ -256,7 +266,7 @@ pub fn fix_tim11_2(dev: &mut Device) -> Result<()> {
     Ok(())
 }
 
-pub fn fix_tim12(dev: &mut Device) -> Result<()> {
+pub fn fix_tim12_1(dev: &mut Device) -> Result<()> {
     let mut field = dev.periph("DBG").reg("DBGMCU_APB1_FZ").field("DBG_TIM7_STOP").clone();
     field.name = "DBG_TIM12_STOP".to_string();
     field.description = "TIM12 counter stopped when core is halted".to_string();
@@ -265,7 +275,55 @@ pub fn fix_tim12(dev: &mut Device) -> Result<()> {
     Ok(())
 }
 
-pub fn fix_tim13(dev: &mut Device) -> Result<()> {
+pub fn fix_tim12_2(dev: &mut Device) -> Result<()> {
+    let not_needed = &[
+        ("CR1", "CMS"),
+        ("CR1", "DIR"),
+        ("CR2", "CCDS"),
+        ("SMCR", "ECE"),
+        ("SMCR", "ETF"),
+        ("SMCR", "ETP"),
+        ("SMCR", "ETPS"),
+        ("DIER", "CC3IE"),
+        ("DIER", "CC4IE"),
+        ("DIER", "UDE"),
+        ("DIER", "CC1DE"),
+        ("DIER", "CC2DE"),
+        ("DIER", "CC3DE"),
+        ("DIER", "CC4DE"),
+        ("DIER", "TDE"),
+        ("SR", "CC2IF"),
+        ("SR", "CC3IF"),
+        ("SR", "CC4IF"),
+        ("SR", "CC3OF"),
+        ("SR", "CC4OF"),
+        ("EGR", "CC3G"),
+        ("EGR", "CC4G"),
+        ("CCER", "CC3E"),
+        ("CCER", "CC3NP"),
+        ("CCER", "CC3P"),
+        ("CCER", "CC4E"),
+        ("CCER", "CC4NP"),
+        ("CCER", "CC4P"),
+        ("TISEL", "TI3SEL"),
+        ("TISEL", "TI4SEL"),
+        ("CCMR1_Output", "OC1CE"),
+        ("CCMR1_Output", "OC2CE"),
+        ("CCMR1_Output", "CC2S"),
+        ("CCMR1_Output", "OC2FE"),
+        ("CCMR1_Output", "OC2M"),
+        ("CCMR1_Output", "OC2M_3"),
+        ("CCMR1_Output", "OC2PE"),
+        ("CCMR1_Input", "CC2S"),
+        ("CCMR1_Input", "IC2F"),
+        ("CCMR1_Input", "IC2PSC"),
+    ];
+    dev.remove_periph("TIM12");
+    copy_periph_and_remove_fields(dev, "TIM2", "TIM12", 0x40001800, not_needed);
+    Ok(())
+}
+
+pub fn fix_tim13_1(dev: &mut Device) -> Result<()> {
     let mut field = dev.periph("DBG").reg("DBGMCU_APB1_FZ").field("DBG_TIM12_STOP").clone();
     field.name = "DBG_TIM13_STOP".to_string();
     field.description = "TIM13 counter stopped when core is halted".to_string();
@@ -273,6 +331,58 @@ pub fn fix_tim13(dev: &mut Device) -> Result<()> {
     dev.periph("DBG").reg("DBGMCU_APB1_FZ").add_field(field);
     Ok(())
 }
+
+pub fn fix_tim13_2(dev: &mut Device) -> Result<()> {
+    let not_needed = &[
+        ("CR1", "CMS"),
+        ("CR1", "DIR"),
+        ("DIER", "CC2IE"),
+        ("DIER", "CC3IE"),
+        ("DIER", "CC4IE"),
+        ("DIER", "TIE"),
+        ("DIER", "UDE"),
+        ("DIER", "CC1DE"),
+        ("DIER", "CC2DE"),
+        ("DIER", "CC3DE"),
+        ("DIER", "CC4DE"),
+        ("DIER", "TDE"),
+        ("SR", "CC2IF"),
+        ("SR", "CC3IF"),
+        ("SR", "CC3OF"),
+        ("SR", "CC4IF"),
+        ("SR", "CC4OF"),
+        ("EGR", "CC3G"),
+        ("EGR", "CC4G"),
+        ("EGR", "TG"),
+        ("CCER", "CC2E"),
+        ("CCER", "CC2NP"),
+        ("CCER", "CC2P"),
+        ("CCER", "CC3E"),
+        ("CCER", "CC3NP"),
+        ("CCER", "CC3P"),
+        ("CCER", "CC4E"),
+        ("CCER", "CC4NP"),
+        ("CCER", "CC4P"),
+        ("TISEL", "TI2SEL"),
+        ("TISEL", "TI3SEL"),
+        ("TISEL", "TI4SEL"),
+        ("CCMR1_Output", "OC1CE"),
+        ("CCMR1_Output", "OC2CE"),
+        ("CCMR1_Output", "CC2S"),
+        ("CCMR1_Output", "OC2FE"),
+        ("CCMR1_Output", "OC2M"),
+        ("CCMR1_Output", "OC2M_3"),
+        ("CCMR1_Output", "OC2PE"),
+        ("CCMR1_Input", "CC2S"),
+        ("CCMR1_Input", "IC2F"),
+        ("CCMR1_Input", "IC2PSC"),
+    ];
+    dev.remove_periph("TIM13");
+    copy_periph_and_remove_fields(dev, "TIM2", "TIM13", 0x40001C00, not_needed);
+    dev.periph("TIM14").derived_from = Some("TIM13".to_string());
+    Ok(())
+}
+
 
 pub fn fix_tim14(dev: &mut Device) -> Result<()> {
     let mut field = dev.periph("DBG").reg("DBGMCU_APB1_FZ").field("DBG_TIM13_STOP").clone();
@@ -283,7 +393,7 @@ pub fn fix_tim14(dev: &mut Device) -> Result<()> {
     Ok(())
 }
 
-pub fn fix_tim15(dev: &mut Device) -> Result<()> {
+pub fn fix_tim15_1(dev: &mut Device) -> Result<()> {
     dev.periph("TIM15").reg("CCMR1_Output").field("OC1M").name = "OC1M0_2".to_string();
     dev.periph("TIM15").reg("CCMR1_Output").field("OC1M_2").name = "OC1M3".to_string();
     dev.periph("TIM15").reg("BDTR").remove_field("BKF");
@@ -335,7 +445,12 @@ pub fn fix_tim15(dev: &mut Device) -> Result<()> {
     Ok(())
 }
 
-pub fn fix_tim16(dev: &mut Device) -> Result<()> {
+pub fn fix_tim15_2(dev: &mut Device) -> Result<()> {
+    dev.periph("TIM15").reg("SMCR").field("TS_2_0").name = "TS".to_string();
+    Ok(())
+}
+
+pub fn fix_tim16_1(dev: &mut Device) -> Result<()> {
     dev.periph("TIM16").reg("CCMR1_Output").field("OC1M").name = "OC1M0_2".to_string();
     dev.periph("TIM16").reg("CCMR1_Output").field("OC1M_2").name = "OC1M3".to_string();
     dev.periph("TIM16").reg("BDTR").remove_field("BKF");
@@ -343,6 +458,22 @@ pub fn fix_tim16(dev: &mut Device) -> Result<()> {
     dev.periph("TIM16").reg("DIER").remove_field("TIE");
     dev.periph("TIM16").reg("SR").remove_field("TIF");
     dev.periph("TIM16").reg("EGR").remove_field("TG");
+    Ok(())
+}
+
+pub fn fix_tim16_2(dev: &mut Device) -> Result<()> {
+    dev.periph("TIM16").reg("TIM16_AF1").field("BKDFBK1E").name = "BKDF1BK1E".to_string();
+    dev.periph("TIM16").reg("TIM16_AF1").name = "AF1".to_string();
+    dev.periph("TIM16").reg("TIM16_TISEL").name = "TISEL".to_string();
+    dev.periph("TIM16").reg("DIER").remove_field("COMDE");
+    Ok(())
+}
+
+pub fn fix_tim17_1(dev: &mut Device) -> Result<()> {
+    dev.periph("TIM17").reg("TIM17_AF1").field("BKDFBK1E").name = "BKDF1BK2E".to_string();
+    dev.periph("TIM17").reg("TIM17_AF1").name = "AF1".to_string();
+    dev.periph("TIM17").reg("TIM17_TISEL").name = "TISEL".to_string();
+    dev.periph("TIM17").reg("DIER").remove_field("COMDE");
     Ok(())
 }
 
@@ -420,4 +551,20 @@ fn add_third_bit(
     field.bit_offset = Some(bit_offset);
     field.bit_width = Some(1);
     dev.periph(periph_name).reg(reg_name).add_field(field);
+}
+
+fn copy_periph_and_remove_fields(
+    dev: &mut Device,
+    periph_from: &str,
+    periph_to: &str,
+    base_address: u32,
+    not_needed: &[(&str, &str)]
+) {
+    let mut periph = dev.periph(periph_from).clone();
+    periph.name = periph_to.to_string();
+    periph.base_address = base_address;
+    for (reg_name, field_name) in not_needed {
+        periph.reg(reg_name).remove_field(field_name);
+    }
+    dev.add_periph(periph);
 }

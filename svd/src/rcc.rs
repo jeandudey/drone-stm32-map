@@ -105,3 +105,37 @@ pub fn fix_7(dev: &mut Device) -> Result<()> {
     dev.periph("RCC").reg("DCKCFGR2").field("I2CFMP1SEL").bit_width = Some(2);
     Ok(())
 }
+
+pub fn fix_8(dev: &mut Device) -> Result<()> {
+    let dccipr_fields = &[
+        ("D1CCIPR", "FMCSRC"),
+        ("D1CCIPR", "QSPISRC"),
+        ("D1CCIPR", "SDMMCSRC"),
+        ("D1CCIPR", "CKPERSRC"),
+        ("D2CCIP2R", "USART234578SRC"),
+        ("D2CCIP2R", "USART16SRC"),
+        ("D2CCIP2R", "RNGSRC"),
+        ("D2CCIP2R", "I2C123SRC"),
+        ("D2CCIP2R", "USBSRC"),
+        ("D2CCIP2R", "CECSRC"),
+        ("D2CCIP2R", "LPTIM1SRC"),
+        ("D3CCIPR", "SPI6SRC"),
+        ("D3CCIPR", "SAI4ASRC"),
+        ("D3CCIPR", "ADCSRC"),
+        ("D3CCIPR", "LPTIM345SRC"),
+        ("D3CCIPR", "LPTIM2SRC"),
+        ("D3CCIPR", "I2C4SRC"),
+        ("D3CCIPR", "LPUART1SRC"),
+    ];
+    for (reg_name, field_name) in dccipr_fields {
+        let field = dev.periph("RCC").reg(reg_name).field(field_name);
+        field.name = field.name.replace("SRC", "SEL");
+    }
+    dev.periph("RCC").reg("APB1LRSTR").field("USART7RST").name = "UART7RST".to_string();
+    dev.periph("RCC").reg("APB1LRSTR").field("USART8RST").name = "UART8RST".to_string();
+    dev.periph("RCC").reg("APB1LENR").field("USART7EN").name = "UART7EN".to_string();
+    dev.periph("RCC").reg("APB1LENR").field("USART8EN").name = "UART8EN".to_string();
+    dev.periph("RCC").reg("APB1LLPENR").field("USART7LPEN").name = "UART7LPEN".to_string();
+    dev.periph("RCC").reg("APB1LLPENR").field("USART8LPEN").name = "UART8LPEN".to_string();
+    Ok(())
+}
