@@ -6,6 +6,8 @@
 #![allow(clippy::type_repetition_in_bounds, clippy::wildcard_imports)]
 #![no_std]
 
+pub mod quad;
+
 #[cfg(any(
     stm32_mcu = "stm32f100",
     stm32_mcu = "stm32f101",
@@ -14,6 +16,11 @@
     stm32_mcu = "stm32f107",
 ))]
 mod f1;
+#[cfg(any(
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
+))]
+mod h7;
 #[cfg(any(
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",
@@ -53,6 +60,11 @@ mod f4;
 ))]
 pub use self::f1::*;
 #[cfg(any(
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
+))]
+pub use self::h7::*;
+#[cfg(any(
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",
     stm32_mcu = "stm32l4x3",
@@ -66,7 +78,6 @@ pub use self::f1::*;
     stm32_mcu = "stm32l4s9",
 ))]
 pub use self::l4_all::*;
-
 #[cfg(any(
     stm32_mcu = "stm32f401",
     stm32_mcu = "stm32f405",
