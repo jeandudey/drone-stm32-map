@@ -7,6 +7,11 @@
 #![no_std]
 
 #[cfg(any(
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
+))]
+mod h7;
+#[cfg(any(
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",
     stm32_mcu = "stm32l4x3",
@@ -35,3 +40,8 @@ mod l4_all;
     stm32_mcu = "stm32l4s9"
 ))]
 pub use self::l4_all::*;
+#[cfg(any(
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
+))]
+pub use self::h7::*;
