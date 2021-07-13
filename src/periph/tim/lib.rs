@@ -19,6 +19,8 @@
     stm32_mcu = "stm32f429",
     stm32_mcu = "stm32f446",
     stm32_mcu = "stm32f469",
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",
     stm32_mcu = "stm32l4x3",
@@ -47,6 +49,8 @@ pub mod advanced;
     stm32_mcu = "stm32f429",
     stm32_mcu = "stm32f446",
     stm32_mcu = "stm32f469",
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",
     stm32_mcu = "stm32l4x3",
@@ -73,6 +77,8 @@ pub mod basic;
     stm32_mcu = "stm32f429",
     stm32_mcu = "stm32f446",
     stm32_mcu = "stm32f469",
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",
     stm32_mcu = "stm32l4x3",
@@ -87,6 +93,8 @@ pub mod basic;
 ))]
 pub mod general;
 #[cfg(any(
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",
     stm32_mcu = "stm32l4x3",
