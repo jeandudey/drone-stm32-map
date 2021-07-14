@@ -1,8 +1,10 @@
-//! DMA request multiplexer
+//! DMAMUX request generators.
 
-pub mod ch;
-pub mod rg;
-
+#[cfg(any(
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
+))]
+mod h7;
 #[cfg(any(
     stm32_mcu = "stm32l4r5",
     stm32_mcu = "stm32l4r7",
@@ -13,6 +15,11 @@ pub mod rg;
 ))]
 mod l4_plus;
 
+#[cfg(any(
+    stm32_mcu = "stm32h743",
+    stm32_mcu = "stm32h753",
+))]
+pub use self::h7::*;
 #[cfg(any(
     stm32_mcu = "stm32l4r5",
     stm32_mcu = "stm32l4r7",
