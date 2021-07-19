@@ -137,5 +137,9 @@ pub fn fix_8(dev: &mut Device) -> Result<()> {
     dev.periph("RCC").reg("APB1LENR").field("USART8EN").name = "UART8EN".to_string();
     dev.periph("RCC").reg("APB1LLPENR").field("USART7LPEN").name = "UART7LPEN".to_string();
     dev.periph("RCC").reg("APB1LLPENR").field("USART8LPEN").name = "UART8LPEN".to_string();
+    dev.periph("RCC").reg("PLL2DIVR").field("DIVN1").name = "DIVN2".to_string();
+    dev.periph("RCC").reg("PLL2DIVR").field("DIVP1").name = "DIVP2".to_string();
+    dev.periph("RCC").reg("PLL2DIVR").field("DIVQ1").name = "DIVQ2".to_string();
+    dev.periph("RCC").reg("PLL2DIVR").field("DIVR1").name = "DIVR2".to_string();
     Ok(())
 }
