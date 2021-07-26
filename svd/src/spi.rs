@@ -2,7 +2,7 @@
 
 use crate::copy_field;
 use anyhow::Result;
-use drone_svd::{Device, Access};
+use drone_svd::{Access, Device};
 
 pub fn fix_astren(dev: &mut Device, periph: &str) -> Result<()> {
     dev.periph(periph).reg("I2SCFGR").new_field(|field| {

@@ -383,7 +383,6 @@ pub fn fix_tim13_2(dev: &mut Device) -> Result<()> {
     Ok(())
 }
 
-
 pub fn fix_tim14(dev: &mut Device) -> Result<()> {
     let mut field = dev.periph("DBG").reg("DBGMCU_APB1_FZ").field("DBG_TIM13_STOP").clone();
     field.name = "DBG_TIM14_STOP".to_string();
@@ -558,7 +557,7 @@ fn copy_periph_and_remove_fields(
     periph_from: &str,
     periph_to: &str,
     base_address: u32,
-    not_needed: &[(&str, &str)]
+    not_needed: &[(&str, &str)],
 ) {
     let mut periph = dev.periph(periph_from).clone();
     periph.name = periph_to.to_string();

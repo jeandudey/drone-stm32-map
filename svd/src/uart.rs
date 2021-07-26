@@ -53,6 +53,7 @@ pub fn fix_usart1_3(dev: &mut Device) -> Result<()> {
     copy_field(dev, "LPUART1", "USART1", "CR1", "DEAT");
     copy_field(dev, "LPUART1", "USART1", "CR1", "DEDT");
     copy_field(dev, "LPUART1", "USART1", "CR2", "ADD");
+    fix_fifoen_fifodis(dev, "USART1");
     Ok(())
 }
 
@@ -283,5 +284,35 @@ pub fn fix_lpuart1_1(dev: &mut Device) -> Result<()> {
 
 pub fn fix_lpuart1_2(dev: &mut Device) -> Result<()> {
     dev.periph("LPUART1").reg("RQR").remove_field("ABRRQ");
+    fix_fifoen_fifodis(dev, "LPUART1");
     Ok(())
+}
+
+fn fix_fifoen_fifodis(dev: &mut Device, periph: &str) {
+    let mut fifoen = dev.periph(periph).reg("ISR").clone();
+    let mut fifodis = dev.periph(periph).reg("ISR").clone();
+    fifoen.name = "ISR_Fifoen".to_string();
+    fifoen.field("RXNE").name = "RXFNE".to_string();
+    fifoen.field("TXE").name = "TXFNF".to_string();
+    fifodis.name = "ISR_Fifodis".to_string();
+    fifodis.alternate_register = Some("ISR_Fifoen".to_string());
+    fifodis.remove_field("TXFT");
+    fifodis.remove_field("RXFT");
+    fifodis.remove_field("RXFF");
+    fifodis.remove_field("TXFE");
+    dev.periph(periph).remove_reg("ISR");
+    dev.periph(periph).add_reg(fifodis);
+    dev.periph(periph).add_reg(fifoen);
+    let mut fifoen = dev.periph(periph).reg("CR1").clone();
+    let mut fifodis = dev.periph(periph).reg("CR1").clone();
+    fifoen.name = "CR1_Fifoen".to_string();
+    fifodis.name = "CR1_Fifodis".to_string();
+    fifodis.alternate_register = Some("CR1_Fifoen".to_string());
+    fifodis.remove_field("RXFFIE");
+    fifodis.remove_field("TXFEIE");
+    fifodis.field("TXFNFIE").name = "TXEIE".to_string();
+    fifodis.field("RXFNEIE").name = "RXNEIE".to_string();
+    dev.periph(periph).remove_reg("CR1");
+    dev.periph(periph).add_reg(fifoen);
+    dev.periph(periph).add_reg(fifodis);
 }

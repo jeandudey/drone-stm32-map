@@ -1,7 +1,7 @@
 //! EXTI peripheral patches.
 
 use anyhow::Result;
-use drone_svd::{Device, Access};
+use drone_svd::{Access, Device};
 
 pub fn fix_exti_1(dev: &mut Device) -> Result<()> {
     for (reg_name, field_name) in &[("IMR2", "MR39"), ("EMR2", "MR39")] {

@@ -399,6 +399,7 @@ fn patch_stm32f469(mut dev: Device) -> Result<Device> {
 }
 
 fn patch_stm32h743(mut dev: Device) -> Result<Device> {
+    dev.remove_periph("PF");
     adc::fix_adc_2(&mut dev, "ADC3")?;
     adc::fix_adc_3(&mut dev)?;
     adc::fix_adc_com_tsen(&mut dev)?;

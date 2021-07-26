@@ -12,7 +12,6 @@ pub fn fix_dma1_1(dev: &mut Device) -> Result<()> {
 
 pub fn fix_dma1_2(dev: &mut Device) -> Result<()> {
     for i in 0..=7 {
-        println!("{}", i);
         dev.periph("DMA1").reg(&format!("S{}PAR", i)).field("PA").name = "PAR".to_string();
         dev.periph("DMA1").reg(&format!("S{}CR", i)).new_field(|field| {
             field.name = "TRBUFF".to_string();

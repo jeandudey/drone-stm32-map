@@ -1,7 +1,7 @@
 //! ADC peripheral patches.
 
 use anyhow::Result;
-use drone_svd::{Device, Access};
+use drone_svd::{Access, Device};
 
 pub fn fix_adc1_1(dev: &mut Device) -> Result<()> {
     dev.periph("ADC1").reg("SMPR1").remove_field("SMPx_x");
