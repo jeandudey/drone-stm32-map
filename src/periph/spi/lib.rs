@@ -16,10 +16,7 @@ pub mod quad;
     stm32_mcu = "stm32f107",
 ))]
 mod f1;
-#[cfg(any(
-    stm32_mcu = "stm32h743",
-    stm32_mcu = "stm32h753",
-))]
+#[cfg(any(stm32_mcu = "stm32h743", stm32_mcu = "stm32h753",))]
 mod h7;
 #[cfg(any(
     stm32_mcu = "stm32l4x1",
@@ -60,9 +57,20 @@ mod f4;
 ))]
 pub use self::f1::*;
 #[cfg(any(
-    stm32_mcu = "stm32h743",
-    stm32_mcu = "stm32h753",
+    stm32_mcu = "stm32f401",
+    stm32_mcu = "stm32f405",
+    stm32_mcu = "stm32f407",
+    stm32_mcu = "stm32f410",
+    stm32_mcu = "stm32f411",
+    stm32_mcu = "stm32f412",
+    stm32_mcu = "stm32f413",
+    stm32_mcu = "stm32f427",
+    stm32_mcu = "stm32f429",
+    stm32_mcu = "stm32f446",
+    stm32_mcu = "stm32f469",
 ))]
+pub use self::f4::*;
+#[cfg(any(stm32_mcu = "stm32h743", stm32_mcu = "stm32h753",))]
 pub use self::h7::*;
 #[cfg(any(
     stm32_mcu = "stm32l4x1",
@@ -78,17 +86,3 @@ pub use self::h7::*;
     stm32_mcu = "stm32l4s9",
 ))]
 pub use self::l4_all::*;
-#[cfg(any(
-    stm32_mcu = "stm32f401",
-    stm32_mcu = "stm32f405",
-    stm32_mcu = "stm32f407",
-    stm32_mcu = "stm32f410",
-    stm32_mcu = "stm32f411",
-    stm32_mcu = "stm32f412",
-    stm32_mcu = "stm32f413",
-    stm32_mcu = "stm32f427",
-    stm32_mcu = "stm32f429",
-    stm32_mcu = "stm32f446",
-    stm32_mcu = "stm32f469",
-))]
-pub use self::f4::*;
