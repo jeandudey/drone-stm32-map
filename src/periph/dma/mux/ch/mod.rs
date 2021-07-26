@@ -1,9 +1,6 @@
 //! DMAMUX channels.
 
-#[cfg(any(
-    stm32_mcu = "stm32h743",
-    stm32_mcu = "stm32h753",
-))]
+#[cfg(any(stm32_mcu = "stm32h743", stm32_mcu = "stm32h753",))]
 mod h7;
 #[cfg(any(
     stm32_mcu = "stm32l4r5",
@@ -15,10 +12,7 @@ mod h7;
 ))]
 mod l4_plus;
 
-#[cfg(any(
-    stm32_mcu = "stm32h743",
-    stm32_mcu = "stm32h753",
-))]
+#[cfg(any(stm32_mcu = "stm32h743", stm32_mcu = "stm32h753",))]
 pub use self::h7::*;
 #[cfg(any(
     stm32_mcu = "stm32l4r5",
