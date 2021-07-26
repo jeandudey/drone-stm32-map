@@ -33,7 +33,7 @@ periph! {
 
     UART {
         CR1 {
-            0x20 RwReg;
+            @Fifoen 0x20 RwReg;
             RXFFIE { RwRwRegFieldBit }
             TXFEIE { RwRwRegFieldBit }
             FIFOEN { RwRwRegFieldBit }
@@ -53,6 +53,29 @@ periph! {
             TXFNFIE { RwRwRegFieldBit }
             TCIE { RwRwRegFieldBit }
             RXFNEIE { RwRwRegFieldBit }
+            IDLEIE { RwRwRegFieldBit }
+            TE { RwRwRegFieldBit }
+            RE { RwRwRegFieldBit }
+            UESM { RwRwRegFieldBit }
+            UE { RwRwRegFieldBit }
+            @Fifodis 0x20 RwReg;
+            FIFOEN { RwRwRegFieldBit }
+            M1 { RwRwRegFieldBit }
+            EOBIE { RwRwRegFieldBit Option }
+            RTOIE { RwRwRegFieldBit Option }
+            DEAT { RwRwRegFieldBits }
+            DEDT { RwRwRegFieldBits }
+            OVER8 { RwRwRegFieldBit Option }
+            CMIE { RwRwRegFieldBit }
+            MME { RwRwRegFieldBit }
+            M0 { RwRwRegFieldBit }
+            WAKE { RwRwRegFieldBit }
+            PCE { RwRwRegFieldBit }
+            PS { RwRwRegFieldBit }
+            PEIE { RwRwRegFieldBit }
+            TXEIE { RwRwRegFieldBit }
+            TCIE { RwRwRegFieldBit }
+            RXNEIE { RwRwRegFieldBit }
             IDLEIE { RwRwRegFieldBit }
             TE { RwRwRegFieldBit }
             RE { RwRwRegFieldBit }
@@ -133,12 +156,37 @@ periph! {
             ABRRQ { WoWoRegFieldBit Option }
         }
         ISR {
-            0x20 RoReg;
+            @Fifoen 0x20 RoReg;
             TXFT { RoRoRegFieldBit }
             RXFT { RoRoRegFieldBit }
             TCBGT { RoRoRegFieldBit Option }
             RXFF { RoRoRegFieldBit }
             TXFE { RoRoRegFieldBit }
+            REACK { RoRoRegFieldBit }
+            TEACK { RoRoRegFieldBit }
+            WUF { RoRoRegFieldBit }
+            RWU { RoRoRegFieldBit }
+            SBKF { RoRoRegFieldBit }
+            CMF { RoRoRegFieldBit }
+            BUSY { RoRoRegFieldBit }
+            ABRF { RoRoRegFieldBit Option }
+            ABRE { RoRoRegFieldBit Option }
+            UDR { RoRoRegFieldBit Option }
+            EOBF { RoRoRegFieldBit Option }
+            RTOF { RoRoRegFieldBit Option }
+            CTS { RoRoRegFieldBit }
+            CTSIF { RoRoRegFieldBit }
+            LBDF { RoRoRegFieldBit Option }
+            TXFNF { RoRoRegFieldBit }
+            TC { RoRoRegFieldBit }
+            RXFNE { RoRoRegFieldBit }
+            IDLE { RoRoRegFieldBit }
+            ORE { RoRoRegFieldBit }
+            NE { RoRoRegFieldBit }
+            FE { RoRoRegFieldBit }
+            PE { RoRoRegFieldBit }
+            @Fifodis 0x20 RoReg;
+            TCBGT { RoRoRegFieldBit Option }
             REACK { RoRoRegFieldBit }
             TEACK { RoRoRegFieldBit }
             WUF { RoRoRegFieldBit }
@@ -284,7 +332,7 @@ macro_rules! map_uart {
             UART {
                 $uart;
                 CR1 {
-                    CR1;
+                    @Fifoen CR1_Fifoen;
                     RXFFIE { RXFFIE }
                     TXFEIE { TXFEIE }
                     FIFOEN { FIFOEN }
@@ -304,6 +352,29 @@ macro_rules! map_uart {
                     TXFNFIE { TXFNFIE }
                     TCIE { TCIE }
                     RXFNEIE { RXFNEIE }
+                    IDLEIE { IDLEIE }
+                    TE { TE }
+                    RE { RE }
+                    UESM { UESM }
+                    UE { UE }
+                    @Fifodis CR1_Fifodis;
+                    FIFOEN { FIFOEN }
+                    M1 { M1 }
+                    EOBIE { $($eobie Option)* }
+                    RTOIE { $($rtoie Option)* }
+                    DEAT { DEAT }
+                    DEDT { DEDT }
+                    OVER8 { $($over8 Option)* }
+                    CMIE { CMIE }
+                    MME { MME }
+                    M0 { M0 }
+                    WAKE { WAKE }
+                    PCE { PCE }
+                    PS { PS }
+                    PEIE { PEIE }
+                    TXEIE { TXEIE }
+                    TCIE { TCIE }
+                    RXNEIE { RXNEIE }
                     IDLEIE { IDLEIE }
                     TE { TE }
                     RE { RE }
@@ -386,12 +457,37 @@ macro_rules! map_uart {
                     ABRRQ { $($abrrq Option)* }
                 }
                 ISR {
-                    ISR;
+                    @Fifoen ISR_Fifoen;
                     TXFT { TXFT }
                     RXFT { RXFT }
                     TCBGT { $($tcbgt Option)* }
                     RXFF { RXFF }
                     TXFE { TXFE }
+                    REACK { REACK }
+                    TEACK { TEACK }
+                    WUF { WUF }
+                    RWU { RWU }
+                    SBKF { SBKF }
+                    CMF { CMF }
+                    BUSY { BUSY }
+                    ABRF { $($abrf Option)* }
+                    ABRE { $($abre Option)* }
+                    UDR { $($udr Option)* }
+                    EOBF { $($eobf Option)* }
+                    RTOF { $($rtof Option)* }
+                    CTS { CTS }
+                    CTSIF { CTSIF }
+                    LBDF { $($lbdf Option)* }
+                    TXFNF { TXFNF }
+                    TC { TC }
+                    RXFNE { RXFNE }
+                    IDLE { IDLE }
+                    ORE { ORE }
+                    NE { NE }
+                    FE { FE }
+                    PE { PE }
+                    @Fifodis ISR_Fifodis;
+                    TCBGT { $($tcbgt Option)* }
                     REACK { REACK }
                     TEACK { TEACK }
                     WUF { WUF }
