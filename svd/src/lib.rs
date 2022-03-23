@@ -77,6 +77,9 @@ fn svd_deserialize() -> Result<Device> {
         "stm32l4s5" => patch_stm32l4plus(parse_svd("STM32L4S5.svd")?),
         "stm32l4s7" => patch_stm32l4plus(parse_svd("STM32L4S7.svd")?),
         "stm32l4s9" => patch_stm32l4plus(parse_svd("STM32L4S9.svd")?),
+        "stm32l100" => patch_stm32l100(parse_svd("STM32L100.svd")?),
+        "stm32l151" => patch_stm32l1xx(parse_svd("STM32L151.svd")?),
+        "stm32l162" => patch_stm32l1xx(parse_svd("STM32L162.svd")?),
         _ => bail!("invalid `stm32_mcu` cfg flag"),
     }
 }
@@ -509,6 +512,17 @@ fn patch_stm32l4plus(mut dev: Device) -> Result<Device> {
     tim::fix_tim8_1(&mut dev)?;
     adc::fix_adc_1(&mut dev)?;
     uart::fix_usart1_2(&mut dev)?;
+    Ok(dev)
+}
+
+fn patch_stm32l100(mut dev: Device) -> Result<Device> {
+    spi::fix_spi3_4(&mut dev)?;
+    Ok(dev)
+}
+
+fn patch_stm32l1xx(mut dev: Device) -> Result<Device> {
+    spi::fix_spi1_1(&mut dev)?;
+    spi::fix_spi3_4(&mut dev)?;
     Ok(dev)
 }
 

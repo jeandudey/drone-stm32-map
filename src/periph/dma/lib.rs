@@ -43,6 +43,12 @@ mod f3;
 ))]
 mod f4;
 #[cfg(any(
+    stm32_mcu = "stm32l100",
+    stm32_mcu = "stm32l151",
+    stm32_mcu = "stm32l162",
+))]
+mod l1_all;
+#[cfg(any(
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",
     stm32_mcu = "stm32l4x3",
@@ -84,6 +90,12 @@ pub use self::f3::*;
     stm32_mcu = "stm32f469"
 ))]
 pub use self::f4::*;
+#[cfg(any(
+    stm32_mcu = "stm32l100",
+    stm32_mcu = "stm32l151",
+    stm32_mcu = "stm32l162",
+))]
+pub use self::l1_all::*;
 #[cfg(any(
     stm32_mcu = "stm32l4x1",
     stm32_mcu = "stm32l4x2",

@@ -14,6 +14,13 @@ pub fn fix_astren(dev: &mut Device, periph: &str) -> Result<()> {
     Ok(())
 }
 
+pub fn fix_spi1_1(dev: &mut Device) -> Result<()> {
+    let field = dev.periph("SPI1").reg("SR").field("TIFRFE");
+    field.name = "FRE".to_string();
+    field.description = "Frame format error".to_string();
+    Ok(())
+}
+
 pub fn fix_spi2_1(dev: &mut Device) -> Result<()> {
     dev.periph("RCC").reg("APB1ENR").new_field(|field| {
         field.name = "SPI2EN".to_string();
@@ -50,6 +57,16 @@ pub fn fix_spi3_1(dev: &mut Device) -> Result<()> {
 pub fn fix_spi3_2(dev: &mut Device) -> Result<()> {
     dev.periph("RCC").reg("APB1ENR1").field("SP3EN").name = "SPI3EN".to_string();
     dev.periph("RCC").reg("APB1SMENR1").field("SP3SMEN").name = "SPI3SMEN".to_string();
+    Ok(())
+}
+
+pub fn fix_spi3_4(dev: &mut Device) -> Result<()> {
+    dev.periph("RCC").reg("APB1LPENR").new_field(|field| {
+        field.name = "SPI3LPEN".to_string();
+        field.description = "SPI3 clock enable during Sleep mode".to_string();
+        field.bit_offset = Some(15);
+        field.bit_width = Some(1);
+    });
     Ok(())
 }
 

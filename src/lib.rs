@@ -43,7 +43,9 @@
 //! | `stm32l4s7` | ARM® Cortex®-M4F r0p1 | [RM0432](https://www.st.com/resource/en/reference_manual/dm00310109.pdf) | `adc` `dma` `exti` `gpio` `i2c` `rtc` `spi` `tim` `uart` |
 //! | `stm32l4r9` | ARM® Cortex®-M4F r0p1 | [RM0432](https://www.st.com/resource/en/reference_manual/dm00310109.pdf) | `adc` `dma` `exti` `gpio` `i2c` `rtc` `spi` `tim` `uart` |
 //! | `stm32l4s9` | ARM® Cortex®-M4F r0p1 | [RM0432](https://www.st.com/resource/en/reference_manual/dm00310109.pdf) | `adc` `dma` `exti` `gpio` `i2c` `rtc` `spi` `tim` `uart` |
-//!
+//! | `stm32l100` | ARM® Cortex®-M3 r1p1 | [RM0038](https://www.st.com/resource/en/reference_manual/rm0038-stm32l100xx-stm32l151xx-stm32l152xx-and-stm32l162xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf) | ``dma` `gpio` `spi` `tim` `uart` |
+//! | `stm32l151` | ARM® Cortex®-M3 r1p1 | [RM0038](https://www.st.com/resource/en/reference_manual/rm0038-stm32l100xx-stm32l151xx-stm32l152xx-and-stm32l162xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf) | ``dma` `gpio` `spi` `tim` `uart` |
+//! | `stm32l162` | ARM® Cortex®-M3 r1p1 | [RM0038](https://www.st.com/resource/en/reference_manual/rm0038-stm32l100xx-stm32l151xx-stm32l152xx-and-stm32l162xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf) | ``dma` `gpio` `spi` `tim` `uart` |
 //! `stm32_mcu` config flag should be set at the application level according to
 //! this table.
 //!
